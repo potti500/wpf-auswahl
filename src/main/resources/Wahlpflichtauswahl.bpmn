@@ -38,7 +38,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_00n63m6" sourceRef="Task_1qqohlh" targetRef="Task_0v4fj3e" />
     <bpmn:sequenceFlow id="SequenceFlow_0d8w2er" sourceRef="BoundaryEvent_1udxjph" targetRef="Task_0k0qjm7" />
     <bpmn:sequenceFlow id="SequenceFlow_1gnb6f8" sourceRef="Task_0k0qjm7" targetRef="Task_1qqohlh" />
-    <bpmn:userTask id="Task_0u16pz0" name="WP-Fächer auswählen" camunda:formKey="embedded:app:forms/wpfs-auswaehlen.html" camunda:assignee="wahlpflicht">
+    <bpmn:userTask id="Task_0u16pz0" name="WP-Fächer auswählen" camunda:formKey="embedded:app:forms/wpfs-auswaehlen.html" camunda:assignee="wahlpflicht" camunda:candidateUsers="wahlpflicht">
       <bpmn:extensionElements>
         <camunda:formData />
       </bpmn:extensionElements>
@@ -54,7 +54,7 @@
     <bpmn:startEvent id="StartEvent_1" name="Wahlpflicht-Auswahl steht an">
       <bpmn:outgoing>SequenceFlow_1u41c1a</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Task_1qqohlh" name="WP-Fächer eintragen" camunda:asyncBefore="true" camunda:formKey="embedded:app:forms/wpfs-eintragen.html" camunda:assignee="wahlpflicht">
+    <bpmn:userTask id="Task_1qqohlh" name="WP-Fächer eintragen" camunda:formKey="embedded:app:forms/wpfs-eintragen.html" camunda:assignee="wahlpflicht" camunda:candidateUsers="wahlpflicht">
       <bpmn:extensionElements>
         <camunda:formData />
       </bpmn:extensionElements>
@@ -87,7 +87,7 @@
       <bpmn:incoming>SequenceFlow_0d8w2er</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1gnb6f8</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:callActivity id="Task_0v4fj3e" name="Info-veranstaltung planen" camunda:caseRef="Infoveranstaltung1">
+    <bpmn:callActivity id="Task_0v4fj3e" name="Info-veranstaltung planen" camunda:caseRef="Infoveranstaltung">
       <bpmn:incoming>SequenceFlow_00n63m6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1xsxque</bpmn:outgoing>
     </bpmn:callActivity>
