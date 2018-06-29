@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_0bsp4d0" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <inputData id="InputData_1nu79kn" name="Anmeldedatum">
+    <extensionElements>
+      <biodi:bounds x="353" y="76" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_1aefby8" name="SummeCP">
+    <extensionElements>
+      <biodi:bounds x="571" y="208" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_11m84n6" name="Semester">
+    <extensionElements>
+      <biodi:bounds x="349" y="296" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <decision id="WPA-Pruefung" name="Prüfungsanmeldung Wahlpflichtfächer WIM">
+    <extensionElements>
+      <biodi:bounds x="332" y="170" width="180" height="80" />
+      <biodi:edge source="InputData_1nu79kn">
+        <biodi:waypoints x="412" y="121" />
+        <biodi:waypoints x="404" y="170" />
+      </biodi:edge>
+      <biodi:edge source="InputData_1aefby8">
+        <biodi:waypoints x="571" y="218" />
+        <biodi:waypoints x="512" y="242" />
+      </biodi:edge>
+      <biodi:edge source="InputData_11m84n6">
+        <biodi:waypoints x="414" y="296" />
+        <biodi:waypoints x="418" y="250" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0gbtasy">
+        <biodi:waypoints x="604" y="129" />
+        <biodi:waypoints x="512" y="184" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1nu79kn" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_1aefby8" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_11m84n6" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_0gbtasy" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="Anmeldedatum">
+        <inputExpression id="inputExpression_1" typeRef="date">
+          <text>anmeldedatum</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_096lixh" label="Semester">
+        <inputExpression id="LiteralExpression_07evvfz" typeRef="long">
+          <text>semester</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1kbmklk" label="AnzahlFaecher">
+        <inputExpression id="LiteralExpression_1xrxye7" typeRef="long">
+          <text>anzahlfach</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1j0oags" label="SummeCP">
+        <inputExpression id="LiteralExpression_1ug8r3y" typeRef="long">
+          <text>summecp</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Antwort" name="antwort" typeRef="boolean" />
+      <rule id="DecisionRule_1kaoiaf">
+        <inputEntry id="UnaryTests_1abqd7p">
+          <text><![CDATA[< date and time("2018-04-16T00:00:00")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qw8hff">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18ot1r7">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v8w3m0">
+          <text>12</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15hqcs2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jqzw4q">
+        <inputEntry id="UnaryTests_0t3hxh3">
+          <text><![CDATA[> date and time("2018-04-15T23:59:59")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b2m4hs">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18io8p1">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dfm8cp">
+          <text>12</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0a2v5km">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jjd4jt">
+        <inputEntry id="UnaryTests_0hpdthq">
+          <text><![CDATA[< date and time("2018-04-16T23:59:59")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16x5r4c">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jtx8qj">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uka4hu">
+          <text>12</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0urn4jy">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jhojzk">
+        <inputEntry id="UnaryTests_1es84tx">
+          <text><![CDATA[> date and time("2018-04-15T23:59:59")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vzc7hy">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15ajj3g">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ioo18u">
+          <text>12</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05n0cra">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cgvmsj">
+        <inputEntry id="UnaryTests_0cn8qf5">
+          <text><![CDATA[< date and time("2018-04-16T00:00:00")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qnjqzj">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10zmbqt">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00d3t2d">
+          <text><![CDATA[<12]]></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vyo7l9">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04ju4ri">
+        <inputEntry id="UnaryTests_11gzza5">
+          <text><![CDATA[< date and time("2018-12-01T00:00:00")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hkub9c">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0l47s8e">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p40jeb">
+          <text>18</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0l2h9n4">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cqcw6l">
+        <inputEntry id="UnaryTests_0jrkvoz">
+          <text><![CDATA[> date and time("2018-11-30T23:59:59")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rg62ve">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ra6v5v">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bg4922">
+          <text>18</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_19y6rtk">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fq9bub">
+        <inputEntry id="UnaryTests_1fznmij">
+          <text><![CDATA[< date and time("2018-12-01T00:00:00")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bqccw2">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_165untk">
+          <text>4</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00wsqf1">
+          <text>18</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tov31z">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0gyfuxr">
+        <inputEntry id="UnaryTests_0mir3ld">
+          <text><![CDATA[> date and time("2018-11-30T23:59:59")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ykxc1x">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0z3zbrw">
+          <text>4</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p94lbm">
+          <text>18</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pm4ppk">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0e1xg34">
+        <inputEntry id="UnaryTests_102c104">
+          <text><![CDATA[< date and time("2018-12-01T00:00:00")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d0dajk">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11bv7rn">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o5uvah">
+          <text><![CDATA[<18]]></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_07bd0yz">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ra8n2o">
+        <inputEntry id="UnaryTests_1maaojs">
+          <text><![CDATA[> date and time("2018-11-30T23:59:59")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0aei9tu">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tyk0i3">
+          <text><![CDATA[<3]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cfum2d">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18y049l">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ajdxp1">
+        <inputEntry id="UnaryTests_0kn2sx5">
+          <text><![CDATA[< date and time("2018-12-01T00:00:00")]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ly8g9z">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hzp21i">
+          <text><![CDATA[<3]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rn88kd">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kqb3wa">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1rzarl6">
+        <inputEntry id="UnaryTests_15cwrti">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_124fs88">
+          <text><![CDATA[> 3]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19rfdtf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_149w2e6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0a6t2kr">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0x0ua1g">
+        <inputEntry id="UnaryTests_1ghurof">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e1bsz2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16ycn80">
+          <text><![CDATA[> 4]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dqa0ld">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qlpicm">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_096klf8">
+        <inputEntry id="UnaryTests_1gyu5bg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dly27p">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jx94sy">
+          <text><![CDATA[< 2]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0axmzlh">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1eam6wi">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_025xaau">
+        <inputEntry id="UnaryTests_0bb5438">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0v5g93s">
+          <text><![CDATA[< 2]]></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0re890e">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dg90zb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vc03ea">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0gbtasy" name="AnzahlFaecher">
+    <extensionElements>
+      <biodi:bounds x="577" y="84" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>

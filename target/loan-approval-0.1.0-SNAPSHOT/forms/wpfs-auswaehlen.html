@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de" >
+<head>
+  <meta charset="UTF-8">
+  <title>Auswahl der Wahlpflichtfächer</title>
+
+</head>
+<body>
+<form action="" method="post" id="zaehlen" accept-charset="UTF-8">
+<br></br>
+<table>
+    <thead>
+        <tr>
+            <th>Checkbox</th>
+            <th>Wahlpflichtfächer</th>
+            <th>Credit Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td>
+                <input readonly 
+                cam-variable-name="fach1"
+                cam-variable-type="String"
+                type="text"/>
+            </td>
+
+            <td>
+                <input  
+                cam-variable-name="cp1"
+                cam-variable-type="Long"
+                type="text" class="anzahlcp"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td>
+                <input readonly 
+                cam-variable-name="fach2"
+                cam-variable-type="String"
+                type="text"/>
+            </td>
+
+            <td>
+                <input  
+                cam-variable-name="cp2"
+                cam-variable-type="Long"
+                type="text" class="anzahlcp"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td>
+                <input readonly 
+                cam-variable-name="fach3"
+                cam-variable-type="String"
+                type="text"/>
+            </td>
+
+            <td>
+                <input  
+                cam-variable-name="cp3"
+                cam-variable-type="Long"
+                type="text" class="anzahlcp"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td>
+                <input readonly 
+                cam-variable-name="fach4"
+                cam-variable-type="String"
+                type="text"/>
+            </td>
+
+            <td>
+                <input   
+                cam-variable-name="cp4"
+                cam-variable-type="Long"
+                type="text" class="anzahlcp"/>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+       
+<label>Aktuelles Semester</label> 
+   <input  
+            cam-variable-name="semester"
+            cam-variable-type="Long"
+            type="number" placeholder="Aktuelles Semester" />
+            
+<br></br>
+
+<label>Matrikelnummer</label> 
+   <input  
+            cam-variable-name="matrikel"
+            cam-variable-type="Long"
+            type="number" placeholder="Matrikelnummer" />
+            
+<br></br>
+
+<label>Anmeldezeitpunkt</label>
+ <div id="Datum" cam-variable-name="anmeldedatum"
+            cam-variable-type="Date" value="2018-07-05T13:42:42"></div>
+
+
+<input  
+            cam-variable-name="anmeldedatum"
+            cam-variable-type="Date"
+            type="hidden" value="2018-07-05T13:42:42"/>
+
+<script> var d = new Date();;
+document.getElementById('Datum').innerHTML = d.toISOString();
+
+
+
+</script>
+
+
+<br></br>
+            
+    
+      <label for="edit-count-checked-checkboxes">Anzahl ausgewählter Fächer <span class="form-required">*</span></label>
+     <input type="number" cam-variable-name="anzahlfach"
+            cam-variable-type="Long" id="anzahl-wpfs" name="count-checked-checkboxes" value="0" size="10" maxlength="10" class="form-text required" readonly />
+
+
+ <br></br>
+ <label>Summe der Credit Points</label>
+
+    <input type="number" cam-variable-name="summecp"
+            cam-variable-type="Long" class="total" value="" />
+  
+
+</form>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+  
+
+    <script>
+$(document).ready(function(){
+
+    var $checkboxes = $('#zaehlen td input[type="checkbox"]');
+        
+    $checkboxes.change(function(){
+        var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+        $('#count-checked-checkboxes').text(countCheckedCheckboxes);
+        
+        $('#anzahl-wpfs').val(countCheckedCheckboxes);
+    });
+
+});
+
+    </script>
+
+<script> 
+$(document).on("change", ".anzahlcp", function() {
+    var sum = 0;
+    $(".anzahlcp").each(function(){
+        sum += +$(this).val();
+    });
+    $(".total").val(sum);
+});
+
+</script
+
+
+</body>
+
+</html>
