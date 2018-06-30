@@ -54,7 +54,7 @@
     <bpmn:startEvent id="StartEvent_1" name="Wahlpflicht-Auswahl steht an">
       <bpmn:outgoing>SequenceFlow_1u41c1a</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Task_1qqohlh" name="WP-Fächer eintragen" camunda:formKey="embedded:app:forms/wpfs-eintragen.html" camunda:assignee="wahlpflicht">
+    <bpmn:userTask id="Task_1qqohlh" name="WP-Fächer eintragen" camunda:assignee="wahlpflicht">
       <bpmn:extensionElements>
         <camunda:formData />
       </bpmn:extensionElements>
