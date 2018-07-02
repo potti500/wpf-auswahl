@@ -11,7 +11,7 @@
 <table>
     <thead>
         <tr>
-            <th>Checkbox</th>
+            <th>Auswahl</th>
             <th>Wahlpflichtfächer</th>
             <th>Credit Points</th>
         </tr>
@@ -19,7 +19,7 @@
     <tbody>
         <tr>
             <td>
-                <input type="checkbox"/>
+                <input class="checkbox" type="checkbox"/>
             </td>
             <td>
                 <input readonly 
@@ -38,7 +38,7 @@
 
         <tr>
             <td>
-                <input type="checkbox"/>
+                <input class="checkbox" type="checkbox"/>
             </td>
             <td>
                 <input readonly 
@@ -57,7 +57,7 @@
 
         <tr>
             <td>
-                <input type="checkbox"/>
+                <input class="checkbox" type="checkbox"/>
             </td>
             <td>
                 <input readonly 
@@ -76,7 +76,7 @@
 
         <tr>
             <td>
-                <input type="checkbox"/>
+                <input class="checkbox" type="checkbox"/>
             </td>
             <td>
                 <input readonly 
@@ -91,29 +91,66 @@
                 cam-variable-type="Long"
                 type="text" class="anzahlcp"/>
             </td>
+           
+        </tr>
+        <tr>
+             <td>
+                <strong>Summe</strong>
+            </td>
+             <td>
+                 <input readonly
+                 cam-variable-name="anzahlfach"
+                 cam-variable-type="Long"
+                 id="anzahl-wpfs" 
+                 type="number" 
+                 name="count-checked-checkboxes" />
+            </td>
+            <td>
+                <input type="number" 
+                cam-variable-name="summecp"
+                cam-variable-type="Long" 
+                class="total" value="" />
+            </td>
         </tr>
 
     </tbody>
 </table>
-
-       
-<label>Aktuelles Semester</label> 
-   <input  
-            cam-variable-name="semester"
-            cam-variable-type="Long"
-            type="number" placeholder="Aktuelles Semester" />
-            
 <br></br>
 
-<label>Matrikelnummer</label> 
-   <input  
-            cam-variable-name="matrikel"
-            cam-variable-type="Long"
-            type="number" placeholder="Matrikelnummer" />
+
+<table>
+    <thead>
+        <tr>
             
+            <th>Semester Nr.</th>
+            <th>Matrikelnummer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+           
+            <td>
+                <input  
+                cam-variable-name="semester"
+                cam-variable-type="Long"
+                type="number" placeholder="2 oder 3" />
+            </td>
+
+            <td>
+                <input  
+                cam-variable-name="matrikel"
+                cam-variable-type="Long"
+                type="number" placeholder="Matrikelnummer" />
+            </td>
+        </tr>
+            </tbody>
+</table>
+
+
+
 <br></br>
 
-<label>Anmeldezeitpunkt</label>
+<strong>Anmeldezeitpunkt</strong>
  <div id="Datum" cam-variable-name="anmeldedatum"
             cam-variable-type="Date" value="2018-07-05T13:42:42"></div>
 
@@ -125,26 +162,7 @@
 
 <script> var d = new Date();;
 document.getElementById('Datum').innerHTML = d.toISOString();
-
-
-
 </script>
-
-
-<br></br>
-            
-    
-      <label for="edit-count-checked-checkboxes">Anzahl ausgewählter Fächer <span class="form-required">*</span></label>
-     <input type="number" cam-variable-name="anzahlfach"
-            cam-variable-type="Long" id="anzahl-wpfs" name="count-checked-checkboxes" value="0" size="10" maxlength="10" class="form-text required" readonly />
-
-
- <br></br>
- <label>Summe der Credit Points</label>
-
-    <input type="number" cam-variable-name="summecp"
-            cam-variable-type="Long" class="total" value="" />
-  
 
 </form>
 
@@ -168,16 +186,24 @@ $(document).ready(function(){
 
     </script>
 
-<script> 
-$(document).on("change", ".anzahlcp", function() {
+<script>
+$(document).ready(function(){
     var sum = 0;
-    $(".anzahlcp").each(function(){
-        sum += +$(this).val();
+
+    $('#zaehlen table tr').each(function(){
+    	var row = $(this);
+        $(this).find('.checkbox').on('change',function() {
+    	    if ($(this).is(':checked')) {
+    	    	sum += Number(row.find('.anzahlcp').val());
+            } else {
+				sum -= Number(row.find('.anzahlcp').val());
+            }
+			$(".total").val(sum);
+        })
     });
-    $(".total").val(sum);
 });
 
-</script
+</script>
 
 
 </body>

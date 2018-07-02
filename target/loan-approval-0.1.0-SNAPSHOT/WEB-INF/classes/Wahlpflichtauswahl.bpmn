@@ -87,7 +87,7 @@
       <bpmn:incoming>SequenceFlow_0d8w2er</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1gnb6f8</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:callActivity id="Task_0v4fj3e" name="Info-veranstaltung planen" camunda:caseRef="Infoveranstaltung">
+    <bpmn:callActivity id="Task_0v4fj3e" name="Info-veranstaltung planen" camunda:caseRef="Infoveranstaltung1">
       <bpmn:incoming>SequenceFlow_00n63m6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1xsxque</bpmn:outgoing>
     </bpmn:callActivity>
