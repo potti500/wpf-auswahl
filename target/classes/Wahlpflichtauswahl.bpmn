@@ -62,7 +62,7 @@
       <bpmn:incoming>SequenceFlow_1gnb6f8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_00n63m6</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:boundaryEvent id="BoundaryEvent_1udxjph" name="nach &#10;14 Tagen" attachedToRef="Task_1qqohlh">
+    <bpmn:boundaryEvent id="BoundaryEvent_1udxjph" name=" &#10;14 Tage" attachedToRef="Task_1qqohlh">
       <bpmn:outgoing>SequenceFlow_0d8w2er</bpmn:outgoing>
       <bpmn:timerEventDefinition>
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT10S</bpmn:timeDuration>
@@ -224,7 +224,7 @@
       <bpmndi:BPMNShape id="BoundaryEvent_1t3ac03_di" bpmnElement="BoundaryEvent_1udxjph">
         <dc:Bounds x="222" y="122" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="259" y="127" width="46" height="25" />
+          <dc:Bounds x="262" y="127" width="40" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0d8w2er_di" bpmnElement="SequenceFlow_0d8w2er">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cmmn:definitions xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions_1ipouac" targetNamespace="http://bpmn.io/schema/cmmn" exporter="Camunda Modeler" exporterVersion="1.12.0">
+<cmmn:definitions xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/cmmn" id="definitions_1ipouac" targetNamespace="http://bpmn.io/schema/cmmn" exporter="Camunda Modeler" exporterVersion="1.12.0">
   <cmmn:case id="Infoveranstaltung1">
     <cmmn:casePlanModel id="CasePlanModel_1" name="WP-Fächer für das kommende Semester vorstellen&#10;" autoComplete="false">
       <cmmn:planItem id="PlanItem_1f64s1r" definitionRef="Milestone_0emujy9">
@@ -32,16 +32,6 @@
           <cmmn:entryCriterion id="EntryCriterion_1ntqa2y" sentryRef="Sentry_059odgq" />
         </cmmn:planItem>
         <cmmn:planItem id="PlanItem_1jlfhad" definitionRef="HumanTask_0hcqm8h" />
-        <cmmn:planItem id="PlanItem_07icxmr" definitionRef="HumanTask_1xb8pzw">
-          <cmmn:itemControl id="PlanItemControl_0kfgaxl">
-            <cmmn:manualActivationRule id="ManualActivationRule_0qgj8mp" />
-          </cmmn:itemControl>
-        </cmmn:planItem>
-        <cmmn:planItem id="PlanItem_09yu2w3" definitionRef="HumanTask_16t6h7w">
-          <cmmn:itemControl id="PlanItemControl_0oqsihd">
-            <cmmn:manualActivationRule id="ManualActivationRule_1hlvjq5" />
-          </cmmn:itemControl>
-        </cmmn:planItem>
         <cmmn:sentry id="Sentry_059odgq">
           <cmmn:planItemOnPart id="PlanItemOnPart_1bgkyga" sourceRef="PlanItem_1jlfhad">
             <cmmn:standardEvent>complete</cmmn:standardEvent>
@@ -49,12 +39,18 @@
         </cmmn:sentry>
         <cmmn:planningTable id="PlanningTable_0nnxlni">
           <cmmn:discretionaryItem id="PlanItem_01ug5c2" definitionRef="HumanTask_1cmo9w2" />
+          <cmmn:discretionaryItem id="PlanItem_07icxmr" definitionRef="HumanTask_0tt0uop" />
+          <cmmn:discretionaryItem id="PlanItem_09yu2w3" definitionRef="HumanTask_11hvtlk" />
         </cmmn:planningTable>
         <cmmn:humanTask id="HumanTask_0hcqm8h" name="Termin mit Professoren absprechen&#10;" />
-        <cmmn:humanTask id="HumanTask_1cyhvhs" name="Raum auswählen&#10;" />
-        <cmmn:humanTask id="HumanTask_1xb8pzw" name="Professx&#10;benachrichtigen&#10;" isBlocking="false" />
-        <cmmn:humanTask id="HumanTask_16t6h7w" name="Studierx benachrichtigen&#10;" isBlocking="false" />
+        <cmmn:humanTask id="HumanTask_1cyhvhs" name="Raum auswählen&#10;" camunda:formKey="embedded:app:forms/wpfs-raum.html">
+          <cmmn:extensionElements>
+            <camunda:taskListener event="complete" class="org.camunda.bpm.getstarted.loanapproval.RaumInfo" />
+          </cmmn:extensionElements>
+        </cmmn:humanTask>
         <cmmn:humanTask id="HumanTask_1cmo9w2" name="externe Dozenten einladen" />
+        <cmmn:humanTask id="HumanTask_0tt0uop" name="Professx persönlich&#10;benachrichtigen&#10;" isBlocking="false" />
+        <cmmn:humanTask id="HumanTask_11hvtlk" name="Studierx persönlich benachrichtigen&#10;" isBlocking="false" />
       </cmmn:stage>
       <cmmn:milestone id="Milestone_0emujy9" name="Planung abgeschlossen" />
       <cmmn:stage id="Stage_1ocness" name="Wahlpflichtfächer vorstellen&#10;">
@@ -177,14 +173,6 @@
         <dc:Bounds x="781" y="479" width="100" height="80" />
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
-      <cmmndi:CMMNShape id="PlanItem_1ae8ifm_di" cmmnElementRef="PlanItem_09yu2w3">
-        <dc:Bounds x="368" y="141" width="100" height="80" />
-        <cmmndi:CMMNLabel />
-      </cmmndi:CMMNShape>
-      <cmmndi:CMMNShape id="PlanItem_1fyp26p_di" cmmnElementRef="PlanItem_07icxmr">
-        <dc:Bounds x="184" y="141" width="100" height="80" />
-        <cmmndi:CMMNLabel />
-      </cmmndi:CMMNShape>
       <cmmndi:CMMNEdge id="PlanItemOnPart_1r1uy02_di" cmmnElementRef="PlanItemOnPart_1r1uy02" targetCMMNElementRef="EntryCriterion_1h9bydp" isStandardEventVisible="true">
         <di:waypoint x="909" y="170" />
         <di:waypoint x="909" y="324" />
@@ -209,6 +197,14 @@
           <dc:Bounds x="718" y="119.5" width="52" height="13" />
         </cmmndi:CMMNLabel>
       </cmmndi:CMMNEdge>
+      <cmmndi:CMMNShape id="DiscretionaryItem_0jl7kvg_di" cmmnElementRef="PlanItem_07icxmr">
+        <dc:Bounds x="184" y="141" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="DiscretionaryItem_08gd4u4_di" cmmnElementRef="PlanItem_09yu2w3">
+        <dc:Bounds x="346" y="159" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
     </cmmndi:CMMNDiagram>
   </cmmndi:CMMNDI>
 </cmmn:definitions>

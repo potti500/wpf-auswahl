@@ -17,13 +17,13 @@ public class EintragenErinnerung implements JavaDelegate {
   
   public void execute(DelegateExecution execution) throws Exception {
 	  
+	  
 
 	  
 	  String recipient = "pahlf@th-brandenburg.de";
-      String etext = 
-    		  "Sehr geehrter Herr Prof. Johannsen, \n\n"
-        		  		+ "wir bitten Sie hiermit um die baldige Eintragung der Wahlpflichtfächer in das entsprechende Portal.\n\n"
-        		  		+ "Mit freundlichen Grüßen \n\n Ihr Prüfungsamt";
+      String etext = "Sehr geehrter Herr Prof. Johannsen, \n\n"
+		+ "wir bitten Sie hiermit um die baldige Eintragung der Wahlpflichtfächer in das entsprechende Portal.\n\n"
+		+ "Mit freundlichen Grüßen\nDas Prüfungsamt";
       
       
       Email email = new SimpleEmail();

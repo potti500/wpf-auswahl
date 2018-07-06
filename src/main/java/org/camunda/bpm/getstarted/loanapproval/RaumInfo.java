@@ -5,9 +5,12 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.delegate.TaskListener;
 
-public class AnmeldungErfolgreich implements JavaDelegate {
+
+public class RaumInfo implements TaskListener {
 
   //TODO: Set Mail Server Properties
   private static final String HOST = "smtp.gmail.com";
@@ -15,22 +18,18 @@ public class AnmeldungErfolgreich implements JavaDelegate {
   private static final String PWD = "google12345";
 
   
-  public void execute(DelegateExecution execution) throws Exception {
-	  Long matrikel = (Long) execution.getVariable("matrikel");
-	  String fach1 = (String) execution.getVariable("fach1");
-	  String fach2 = (String) execution.getVariable("fach2");
-	  String fach3 = (String) execution.getVariable("fach3");
-	  String fach4 = (String) execution.getVariable("fach4");
+  public void notify(DelegateTask delegateTask)  {
+	  String Datum = (String) delegateTask.getVariable("datum");
+	  String Uhrzeit = (String) delegateTask.getVariable("zeit");
+	  Long Raum = (Long) delegateTask.getVariable("raum");
+	  
+
 	  
 	  String recipient = "pahlf@th-brandenburg.de";
       String etext = 
-    		  "Sehr geehrter Studierende mit der Matrikelnummer "+ matrikel +", \n\n"
-    		  		+ "hiermit bestätigen wir Ihnen die erfolgreiche Prüfungsanmeldung für folgende Module:\n\n"
-    		  		+ ""+fach1+"\n"
-    		  		+ ""+fach2+"\n"
-    		  		+ ""+fach3+"\n"
-    		  		+ ""+fach4+"\n"
-    		  		+ "Mit freundlichen Grüßen,\nIhr Prüfungsamt";
+    		  "Sehr geehrte Professoren und Studierende, \n\n"
+      		  		+ "die Infoveranstaltung zu den Wahlpflichtfächern findet am "+Datum+" um "+Uhrzeit+" Uhr in Raum "+Raum+" statt.\n\n"
+      		  		+ "Mit freundlichen Grüßen\nA. Johannsen";
       
       
       Email email = new SimpleEmail();
@@ -42,7 +41,7 @@ public class AnmeldungErfolgreich implements JavaDelegate {
       
       try {
           email.setFrom("pruefungsamt@th-brandenburg.org");
-          email.setSubject("Prüfungsanmeldung");
+          email.setSubject("Infoveranstaltung Wahlpflichtmodule");
           email.setMsg(etext);
 
           email.addTo(recipient);

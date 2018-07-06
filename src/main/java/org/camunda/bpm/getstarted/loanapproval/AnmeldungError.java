@@ -36,13 +36,11 @@ public class AnmeldungError implements JavaDelegate {
     		  		+ "bei dem Versuch Sie für die Prüfung in den Wahlpflichtmodulen anzumelden ist leider ein Fehler aufgetreten.\n\n"
     		  		+ "Bitte Prüfen Sie ihre Eingaben und wiederholen den Vorgang.\n\n"
     		  		+"WP-Fach1: "+fach1+" - "+cp1+"CP\n"
-    		  		+"WP-Fach1: "+fach2+" - "+cp2+"CP\n"
-    		  		+"WP-Fach1: "+fach3+" - "+cp3+"CP\n"
-    		  		+"WP-Fach1: "+fach4+" - "+cp4+"CP\n\n"
-    		  		+"Summe CP für die Auswahl: "+summecp+" --CP\n"
+    		  		+"WP-Fach2: "+fach2+" - "+cp2+"CP\n"
+    		  		+"Summe CP für die Auswahl: "+summecp+" CP\n"
     		  		+"Anmeldung für Semester: "+semester+"\n\n"
-    		  		+"Datum der Auswahl: "+Datum+"\n\n"
-    		  		+ "Mit freundlichen Grüßen,\n Ihr Prüfungsamt";
+    		  		+"Überprüfen Sie auch gegebenenfalls nochmals die Anmeldefrist\n\n"
+    		  		+ "Mit freundlichen Grüßen,\nIhr Prüfungsamt";
       
       
       Email email = new SimpleEmail();
