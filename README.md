@@ -19,7 +19,7 @@ Der Prozess der elektronischen Wahlpflichtauswahl ist für die Organisation “T
 
 Der Prozess startet gegen Ende des vorherigen Semesters. Der aktuelle Zeitpunkt liegt im Ermessen des Studiendekans, weshalb hier kein spezieller Zeitpunkt definiert werden konnte. Anschließend trägt der Studiendekan über ein Formular (Task: WP-Fächer eintragen) alle für das kommende Semester zur Verfügung stehenden Wahlpflichtfächer mit dem Namen und der Anzahl der Credit Points ein. Für unseren Prototypen wurden Eingabefelder für vier Fächer definiert. 
 
-![Alt text](/abbildungen/Eintragen.png?raw=true "Formular WPF eintragen")
+![Alt text](/abbildungen/Eintragen.png?raw=true "Formular WPF eintragen" =250x250)
 
 Wird der Studiendekan nicht innerhalb 14 Tagen tätig und trägt die Wahlpflichtfächer in das Formular ein, wird eine Erinnerungsmail verschickt (Task: Erinnerung senden). Sind die Fächer inkl. der Credit Points eingetragen, wird im nächsten Schritt die Infoveranstaltung (Task: Infoveranstaltung planen) geplant (siehe hierzu Kapitel 2.2. Infoveranstaltung). Nach der gehaltenen Infoveranstaltung können die Studierx über ein Formular die gewünschten Wahlpflichtfächer auswählen (Task: WP-Fächer auswählen) und sich für diese anmelden. 
 
