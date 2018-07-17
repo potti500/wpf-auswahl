@@ -189,6 +189,37 @@ Auszug aus der E-Mail Java Klasse "AnmeldungError.java"
 
 Ist die Zulassung erfolgreich (${antwort==true}) folgt der Send Task (Prüfungsanmeldung durchführen). Dadurch erhält der Studierx eine E-Mail (hier ist ebenfalls eine Java Klasse implementiert) mit einer Liste der ausgewählten Fächer, sowie die Bestätigung, dass er sich erfolgreich für die Fächer eingetragen hat. Der Prozess ist anschließend beendet. 
 
+### CMMN
+
+Die Tasks “Termin mit Professoren absprechen” und “Raum auswählen” wurden als blockierende sowie notwendige “HumanTasks” modelliert, da diese Aktivitäten erst beendet werden müssen, bevor die Fallbearbeitung fortfahren kann. Im Task “Raum auswählen” ist zusätzlich ein Formular hinterlegt in dem der Studiendekan das Datum, die Uhrzeit und den Raum der Veranstaltung eingibt. Der integrierte “Task Listener” wartet bis der Task fertig ist und aktiviert anschließend die implementierte Java Klasse in der die E-Mail mit den gerade eingegebenen Daten an die Professx und Studierx verschickt wird. 
+
+![Alt text](/abbildungen/Raum.png?raw=true "Auswahl Raum und Datum")
+
+Das Formular (Embedded task forms) besteht aus HTML/CSS und kann direkt in der Camunda Tasklist angezeigt werden. Damit dies erfolgen kann, muss im "UserTask" des Prozess Modells darauf hin verwiesen werden, z. B. "embedded:app:forms/wpfs-raum.html" im Feld "Form Key". Wichtig dabei ist, dass sich das HTML Formular in den Tags <form>...</form> befindet. Wichtig ist auch, dass für die Input Felder eine Variable (cam-variable-name) sowie ein typ (cam-variable-type) vergeben wird, siehe hierzu den Auszug aus o. g. Formular mit dem name "raum" sowie dem typ "Long". Die enthaltenen Klassen sind für das Styling und verweisen auf das Framework "Bootstrap” bzw. auf die Icons von “Fontawesome”. 
+
+Auszug aus dem Formular "wpfs-raum.html"
+
+```
+[....]
+<label>Raum</label>
+<div class="input-group date" id="raum">
+<input class="form-control"
+cam-variable-name="raum"
+cam-variable-type="Long"/><span class="input-group-addon">
+<span class="fa fa-map-marker"></span></span>
+[....]
+
+```
+
+Das vollständige Formular liegt unter: src/main/webapps/forms. Weitere Informationen zu "Embedded task forms" sind hier verfügbar: https://docs.camunda.org/manual/7.9/user-guide/task-forms/#embedded-task-forms  
+
+Die Task “externe Dozenten einladen” wurde als “Discretionary” Task definiert, da dieser nicht ausgeführt werden muss, sondern nach Einschätzung des Studiendekan ausgeführt werden kann. Die Tasks “Professx benachrichtigen” und “Studierx benachrichtigen” wurden als nicht blockierende "HumanTasks" modelliert. Diese Tasks werden vom Studiendekan manuell (Dreieck Symbol im Task) ausgeführt und stoppen dabei den Sequenzfluss nicht. Der anschließende Meilenstein (Planung abgeschlossen) symbolisiert, dass ein Ziel innerhalb eines Falles erreicht ist. Das Erreichen des Meilensteins im Sequenzfluss bedeutet, dass die Phase “Termin und Raum festlegen” abgeschlossen ist. Der Meilenstein selbst repräsentiert also nur den Bearbeitungsfortschritt, ohne selbst einen Arbeitsfortschritt zu assoziieren. 
+
+Die Tasks “Inhalt erklären” sowie “Wahlfrist bekannt geben” wurden als blockierende sowie notwendige “HumanTasks” modelliert, da diese Aktivitäten notwendig sind, sowie erst beendet werden müssen, damit die Fallbearbeitung fortfahren kann. Der Task “Inhalt erklären” wird zudem mehrmals durchlaufen (pro Fach) und ist deshalb mit der Raute (Repetition) spezifiziert. Zusätzlich wurde der Task “Fragen beantworten" als “Discretionary” Task definiert, da dieser nur ausgeführt wird, wenn Fragen der Studierx aufkommen. Abschließend führt der Studiendekan den nicht blockierenden “HumanTask” “Präsentation hochladen” manuell aus. Der Prozess endet im Meilenstein “WP-Fächer vorgestellt”. 
+
+### DMN
+
+Die mit wichtigsten Punkte, die bei der Erstellung einer DMN-Entscheidungstabelle beachtet werden müssen sind die Eindeutigkeit und die Komplettheit. Das bedeutet, dass zum einen alle möglichen Kombinationen bei allen Variablen verwendet werden müssen, und zum anderen, dass es für jede Möglichkeit nur genau einen Ausgabewert gibt, da in dem von uns erstellten Modell die Unique Hit Policy verwendet wird.  Die Datenformate der Variablen entsprechen denen, der jeweiligen Eingaben im vorgelagerten Formular. Für das Anmeldedatum wurde Date verwendet, für die anderen Werte jeweils Long. 
 
 
 ## Reflexion von Schwachstellen
@@ -213,19 +244,3 @@ Der aktuelle Prozess ist für den Masterstudiengang Wirtschaftsinformatik der TH
 
 
 
-
-
-
-Auszug aus dem Formular "wpfs-raum.html"
-
-```
-[....]
-<label>Raum</label>
-<div class="input-group date" id="raum">
-<input class="form-control"
-cam-variable-name="raum"
-cam-variable-type="Long"/><span class="input-group-addon">
-<span class="fa fa-map-marker"></span></span>
-[....]
-
-```
