@@ -11,7 +11,7 @@ Der Prozess zur elektronischen Wahlpflichtfach Auswahl an der THB ist in BPMN (B
 
 ### Wahlpflichtauswahl.bpmn 
 
-![Alt text](/abbildungen/Wahlpflichtauswahl.bpmn.png?raw=true "Wahlpflichtauswahl BPMN")
+![Alt text](/abbildungen/Wahlpflichtauswahl.png?raw=true "Wahlpflichtauswahl BPMN")
 
 Der Hauptprozess ist als BPMN modelliert und zeigt den Prozess von der Wahlpflicht Eintragung durch den Studiendekan, über die Wahlpflichtauswahl der Studierx bis hin zur Prüfungsanmeldung. 
 
