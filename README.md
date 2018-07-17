@@ -42,24 +42,11 @@ Die Entscheidung ist in den BPMN-Prozess eingebunden. Der Beginn ist durch die v
 
 ## Erläuterung der Modellierungsentscheidungen
 
-## Reflexion von Schwachstellen
+Die Erläuterung der fachlichen und technischen Modellierungsentscheidungen erfolgt pro Modell.
 
-Die Lauffähigkeit des Prozesses auf dem Hochschulserver hat leider nicht funktioniert. Dabei sind diverse Fehlermeldungen aufgetreten. Dies könnte damit zusammenhängen, dass wir lokal mit der Camunda BPM Version 7.9 gearbeitet haben, auf dem Server jedoch die Version 7.8 läuft. Eine der Hauptfehlerquellen war, dass Camunda BPM auf dem Hochschulserver unsere Formulare nicht gefunden hat (Context path NULL). Diesbezüglich gibt es auch schon “Bug Reports” und Foreneinträge. Eine Lösung konnte aber nicht eruiert werden. 
-Bug Report: https://app.camunda.com/jira/browse/CAM-5256 
-Foreneintrag: https://forum.camunda.org/t/embedded-form-failure/2473 
+### BPMN
 
-## Optionen für Verbesserungen
-
-In der DMN Tabelle (WPA-Pruefung) könnte ein zusätzliches Output Feld als “string” implementiert werden, so dass eine sprechende Rückmeldung nach erfolgreicher Prüfung als Nachricht ausgegeben werden kann. Die folgende Abbildung zeigt, wie dies aussehen könnte.
-
-![Alt text](/abbildungen/Optional.png?raw=true "Option für Verbesserungen DMN")
-
-
-## Potenzielle Verknüpfungen
-
-Der aktuelle Prozess ist für den Masterstudiengang Wirtschaftsinformatik der THB ausgelegt. Dieser könnte jedoch durch kleine Änderungen und Anpassungen je nach Studien- und Prüfungsordnung der einzelnen Studiengänge angepasst werden. Des Weiteren wäre es sinnvoll, eine Schnittstelle zum HIS-Portal (Hochschulinformationsportal) der THB herzustellen um dort die Eintragungen für die Wahlpflichtfächer vorzunehmen. Für die Authentifizierung der Studierx wäre zudem eine Verknüpfung mit dem Identity Management (IdM) der THB empfehlenswert.
-
-
+Die Aktivität “WP-Fächer eintragen” ist als User-Task modelliert, da hier der Studiendekan als als “menschlicher Akteur” tätig werden muss, um die Wahlpflichtfächer und Credit Points in das Formular einzutragen. Das HTML-Formular wurde im User-Task im Feld “Form Key” eingebunden (embedded:app:forms/wpfs-eintragen.html). In folgendem Auszug sind die verwendeten Variablen (cam-variable-name) sowie der Datentyp (cam-variable-type) ersichtlich. Für die Fächer wurde fach + fortlaufende Nummer verwendet (fach1, fach2, etc.). Die Fächer wurden mit dem Datentyp “String” deklariert, da es sich bei den Fächernamen um eine Zeichenkette handelt. Die Credit Points hingegen wurden mit dem Datentyp “Long” deklariert, weil es sich hierbei um Zahlen handelt und “Long” die Vorgabe von Camunda ist. 
 
 Auszug aus dem Formular "wpfs-eintragen.html"
 
@@ -77,6 +64,10 @@ Auszug aus dem Formular "wpfs-eintragen.html"
             type="number" placeholder="Credit Points" />
 ```
 
+Das vollständige Formular liegt unter: src/main/webapps/forms. 
+
+An die Task “WP-Fächer eintragen” ist ein abbrechendes Zeit-Zwischeneregnis angeheftet. Ein angeheftetes abbrechendes Zeit-Zwischeneregnis tritt ein, wenn entweder ein Zeitpunkt erreicht ist oder eine Frist abgelauft ist oder sich ein Zeitzyklus wiederholt. In unserem Falle haben wir eine Frist von 14 Tagen hinterlegt. Dafür wird der Typ (Timer Definition Type) als “Duration” festgelegt und die Zeit mit “P14D” definiert. “P” steht dabei für Perion (Zeitraum) und “D” steht für Days (Tage). Nach Ablauf der Frist wird der Studiendekan per E-Mail benachrichtigt. Dafür wurde in den “Send Task” (Erinnerung senden) eine Java Klasse implementiert. Ein Auszug, aus der Java Klasse, ist im Folgenden zu sehen. 
+
 Auszug aus der E-Mail Java Klasse "EintragenErinnerung.java"
 
 ```
@@ -84,7 +75,7 @@ public class EintragenErinnerung implements JavaDelegate {
 
   //Hier müssen die Einstellungen für den E-Mailservice definiert werden. 
   private static final String HOST = "smtp.gmail.com";
-  private static final String USER = "demodemo1234512345@gmail.com";
+  private static final String USER = "beispiel@gmail.com";
   private static final String PWD = "xxxxxxxxxxx";
 
   
@@ -93,7 +84,7 @@ public class EintragenErinnerung implements JavaDelegate {
 	  
 
 	  //Empfänger E-Mail Adresse eintragen
-	  String recipient = "pahlf@th-brandenburg.de";
+	  String recipient = "beispiel@th-brandenburg.de";
      //Nachricht 
       String etext = "Sehr geehrter Herr Prof. Johannsen, \n\n"
 		+ "wir bitten Sie hiermit um die baldige Eintragung der Wahlpflichtfächer in das entsprechende Portal.\n\n"
@@ -123,6 +114,14 @@ public class EintragenErinnerung implements JavaDelegate {
 }
 
 ```
+Über den Task “Infoveranstaltung planen” wurde unser CMMN Prozess eingebunden. Hierbei handelt es sich um eine “Call Activity” und nicht um einen klassischen Subprozess. BPMN 2.0 unterscheidet diese beiden Aktivitäten. Der Unterschied hierbei ist, dass die Call Activity auf einen externen Prozess verweist. Ein Subprozess hingegen wäre innerhalb der Prozessdefinition. Sobald der Prozess die Call Activity erreicht, wird eine neue Prozessinstanz erstellt, welche den externen Subprozess ausführt. Der CMMN Prozess ist in Kapitel 2.2 näher beschrieben. 
+
+Im nächsten Schritt wählen die Studierx die Wahlpflichtfächer aus, weshalb der Task “WP-Fächer auswählen” als User Task modelliert ist. Hier ist ebenfalls ein Formular (HTML / CSS / JavaScript) eingebunden. Die Fächer und Credit Points wurden vom Studiendekan in der Task “WP-Fächer eintragen” eingetragen. Folgende GIF soll die Funktionen des Formulars darstellen. 
+
+![Alt text](/abbildungen/Auswaehlen.gif?raw=true "WPF Auswählen GIF")
+
+Die Studierx können über Checkboxen die gewünschten Fächer auswählen. Folgendes JavaScript zählt, wie viele Fächer ausgewählt wurden. Dieser Vorgang ist für die Zulassungsprüfung relevant. 
+
 Auszug aus dem Formular "wpfs-auswaehlen.html", Zählen der Fächer
 
 ```
@@ -140,6 +139,8 @@ $(document).ready(function(){
     </script>
 
 ```
+
+Des Weiteren werden über folgendes JavaScript die Credit Points gezählt und summiert. Das Script zählt pro Zeile in der Tabelle, welches Fach ausgewählt ist, und summiert die entsprechenden Credit Points. 
 
 Auszug aus dem Formular "wpfs-auswaehlen.html", Summieren der Credit Points
 
@@ -165,6 +166,8 @@ $(document).ready(function(){
 
 ```
 
+Auch dieser Vorgang ist für die Zulassungsprüfung relevant. Die Summe wird per Variable an die DMN Tabelle übergeben. Ferner wird per JavaScript ein Zeitstempel erstellt, welcher den aktuellen Zeitpunkt der Anmeldung der Fächer festhält und an die DMN Tabelle zur Prüfung weitergibt. Im darauffolgenden Task “Zulassung für WP-Fächer prüfen” kommt nun die DMN Tabelle zum Einsatz (Kapitel 2.3.). Nach dem DMN Task folgt ein exklusives Gateway. Gibt die DMN Entscheidung den Wert “false” aus (${antwort==false}), war die Prüfung nicht erfolgreich. Daraufhin folgt der Send Task (Studierx benachrichtigen) in dem erneut eine Mail Java Klasse implementiert ist. Die Java Klasse verschickt eine E-Mail an den Studierx mit der bitte die Eingaben zu prüfen. In der E-Mail sind auch die ausgewählten Fächer + Credit Points aufgelistet. Diese werden über die definierte Variable eingebunden (siehe folgender Ausschnitt). 
+
 Auszug aus der E-Mail Java Klasse "AnmeldungError.java"
 
 ```
@@ -183,6 +186,34 @@ Auszug aus der E-Mail Java Klasse "AnmeldungError.java"
 	  Date Datum = (Date) execution.getVariable("anmeldedatum");
 
 ```
+
+Ist die Zulassung erfolgreich (${antwort==true}) folgt der Send Task (Prüfungsanmeldung durchführen). Dadurch erhält der Studierx eine E-Mail (hier ist ebenfalls eine Java Klasse implementiert) mit einer Liste der ausgewählten Fächer, sowie die Bestätigung, dass er sich erfolgreich für die Fächer eingetragen hat. Der Prozess ist anschließend beendet. 
+
+
+
+## Reflexion von Schwachstellen
+
+Die Lauffähigkeit des Prozesses auf dem Hochschulserver hat leider nicht funktioniert. Dabei sind diverse Fehlermeldungen aufgetreten. Dies könnte damit zusammenhängen, dass wir lokal mit der Camunda BPM Version 7.9 gearbeitet haben, auf dem Server jedoch die Version 7.8 läuft. Eine der Hauptfehlerquellen war, dass Camunda BPM auf dem Hochschulserver unsere Formulare nicht gefunden hat (Context path NULL). Diesbezüglich gibt es auch schon “Bug Reports” und Foreneinträge. Eine Lösung konnte aber nicht eruiert werden. 
+Bug Report: https://app.camunda.com/jira/browse/CAM-5256 
+Foreneintrag: https://forum.camunda.org/t/embedded-form-failure/2473 
+
+## Optionen für Verbesserungen
+
+In der DMN Tabelle (WPA-Pruefung) könnte ein zusätzliches Output Feld als “string” implementiert werden, so dass eine sprechende Rückmeldung nach erfolgreicher Prüfung als Nachricht ausgegeben werden kann. Die folgende Abbildung zeigt, wie dies aussehen könnte.
+
+![Alt text](/abbildungen/Optional.png?raw=true "Option für Verbesserungen DMN")
+
+
+## Potenzielle Verknüpfungen
+
+Der aktuelle Prozess ist für den Masterstudiengang Wirtschaftsinformatik der THB ausgelegt. Dieser könnte jedoch durch kleine Änderungen und Anpassungen je nach Studien- und Prüfungsordnung der einzelnen Studiengänge angepasst werden. Des Weiteren wäre es sinnvoll, eine Schnittstelle zum HIS-Portal (Hochschulinformationsportal) der THB herzustellen um dort die Eintragungen für die Wahlpflichtfächer vorzunehmen. Für die Authentifizierung der Studierx wäre zudem eine Verknüpfung mit dem Identity Management (IdM) der THB empfehlenswert.
+
+
+
+
+
+
+
 
 
 Auszug aus dem Formular "wpfs-raum.html"
