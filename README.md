@@ -25,7 +25,7 @@ Wird der Studiendekan nicht innerhalb 14 Tagen tätig und trägt die Wahlpflicht
 
 ![Alt text](/abbildungen/Auswaehlen.png?raw=true "Fächer auswählen")
 
-Nach dem der Studierx seine Fächer ausgewählt, sein Semester und seine Matrikelnummer eingetragen hat, wird die Zulassung durch die DMN `(Task: Zulassung für WP-Fächer prüfen)` geprüft (siehe hierzu Abschnitt Entscheidung). Ist die Prüfung nicht erfolgreich, wird der Studierx per E-Mail benachrichtigt `(Task: Studierx benachrichtigen)` und muss seine Eingabe bzw. Auswahl korrigieren. Sobald die Prüfung der Zulassung erfolgreich ist, erhält der Studierx eine E-Mail `(Task: Prüfungsanmeldung durchführen)`, dass er sich erfolgreich für die Wahlpflichtfächer eingeschrieben hat. Die Wahlpflichtfächer sind somit angemeldet und der Prozess ist beendet. 
+Nach dem der Studierx seine Fächer ausgewählt, sein Semester und seine Matrikelnummer eingetragen hat, wird die Zulassung durch die DMN `(Task: Zulassung für WP-Fächer prüfen)` geprüft (siehe hierzu Abschnitt [Entscheidung](https://github.com/potti500/wpf-auswahl/blob/master/README.md#entscheidungdmn)). Ist die Prüfung nicht erfolgreich, wird der Studierx per E-Mail benachrichtigt `(Task: Studierx benachrichtigen)` und muss seine Eingabe bzw. Auswahl korrigieren. Sobald die Prüfung der Zulassung erfolgreich ist, erhält der Studierx eine E-Mail `(Task: Prüfungsanmeldung durchführen)`, dass er sich erfolgreich für die Wahlpflichtfächer eingeschrieben hat. Die Wahlpflichtfächer sind somit angemeldet und der Prozess ist beendet. 
 
 ### Infoveranstaltung.cmmn
 
@@ -48,7 +48,7 @@ Die Erläuterung der fachlichen und technischen Modellierungsentscheidungen erfo
 
 Die Aktivität “WP-Fächer eintragen” ist als User-Task modelliert, da hier der Studiendekan als als “menschlicher Akteur” tätig werden muss, um die Wahlpflichtfächer und Credit Points in das Formular einzutragen. Das HTML-Formular wurde im User-Task im Feld “Form Key” eingebunden (embedded:app:forms/wpfs-eintragen.html). In folgendem Auszug sind die verwendeten Variablen (cam-variable-name) sowie der Datentyp (cam-variable-type) ersichtlich. Für die Fächer wurde fach + fortlaufende Nummer verwendet (fach1, fach2, etc.). Die Fächer wurden mit dem Datentyp “String” deklariert, da es sich bei den Fächernamen um eine Zeichenkette handelt. Die Credit Points hingegen wurden mit dem Datentyp “Long” deklariert, weil es sich hierbei um Zahlen handelt und “Long” die Vorgabe von Camunda ist. 
 
-Auszug aus dem Formular "wpfs-eintragen.html"
+**Auszug aus dem Formular "wpfs-eintragen.html"**
 
 ```
 <label>WPF1</label> 
@@ -64,11 +64,11 @@ Auszug aus dem Formular "wpfs-eintragen.html"
             type="number" placeholder="Credit Points" />
 ```
 
-Das vollständige Formular liegt unter: src/main/webapps/forms. 
+Das vollständige Formular liegt unter: `src/main/webapps/forms.` 
 
 An die Task “WP-Fächer eintragen” ist ein abbrechendes Zeit-Zwischeneregnis angeheftet. Ein angeheftetes abbrechendes Zeit-Zwischenereignis tritt ein, wenn entweder ein Zeitpunkt erreicht ist oder eine Frist abgelauft ist oder sich ein Zeitzyklus wiederholt. In unserem Falle haben wir eine Frist von 14 Tagen hinterlegt. Dafür wird der Typ (Timer Definition Type) als “Duration” festgelegt und die Zeit mit “P14D” definiert. “P” steht dabei für Perion (Zeitraum) und “D” steht für Days (Tage). Nach Ablauf der Frist wird der Studiendekan per E-Mail benachrichtigt. Dafür wurde in den “Send Task” (Erinnerung senden) eine Java Klasse implementiert. Ein Auszug, aus der Java Klasse, ist im Folgenden zu sehen. 
 
-Auszug aus der E-Mail Java Klasse "EintragenErinnerung.java"
+**Auszug aus der E-Mail Java Klasse "EintragenErinnerung.java"**
 
 ```
 public class EintragenErinnerung implements JavaDelegate {
@@ -114,15 +114,15 @@ public class EintragenErinnerung implements JavaDelegate {
 }
 
 ```
-Über den Task “Infoveranstaltung planen” wurde unser CMMN Prozess eingebunden. Hierbei handelt es sich um eine “Call Activity” und nicht um einen klassischen Subprozess. BPMN 2.0 unterscheidet diese beiden Aktivitäten. Der Unterschied hierbei ist, dass die Call Activity auf einen externen Prozess verweist. Ein Subprozess hingegen wäre innerhalb der Prozessdefinition. Sobald der Prozess die Call Activity erreicht, wird eine neue Prozessinstanz erstellt, welche den externen Subprozess ausführt. Der CMMN Prozess ist in Kapitel 2.2 näher beschrieben. 
+Über den Task “Infoveranstaltung planen” wurde unser CMMN Prozess eingebunden. Hierbei handelt es sich um eine “Call Activity” und nicht um einen klassischen Subprozess. BPMN 2.0 unterscheidet diese beiden Aktivitäten. Der Unterschied hierbei ist, dass die Call Activity auf einen externen Prozess verweist. Ein Subprozess hingegen wäre innerhalb der Prozessdefinition. Sobald der Prozess die Call Activity erreicht, wird eine neue Prozessinstanz erstellt, welche den externen Subprozess ausführt. Der CMMN Prozess ist im Abschnitt [Infoveranstaltung](https://github.com/potti500/wpf-auswahl/blob/master/README.md#infoveranstaltungcmmn)). beschrieben. 
 
-Im nächsten Schritt wählen die Studierx die Wahlpflichtfächer aus, weshalb der Task “WP-Fächer auswählen” als User Task modelliert ist. Hier ist ebenfalls ein Formular (HTML / CSS / JavaScript) eingebunden. Die Fächer und Credit Points wurden vom Studiendekan in der Task “WP-Fächer eintragen” eingetragen. Folgende GIF soll die Funktionen des Formulars darstellen. 
+Im nächsten Schritt wählen die Studierx die Wahlpflichtfächer aus, weshalb der Task “WP-Fächer auswählen” als User Task modelliert ist. Hier ist ebenfalls ein Formular (HTML / CSS / JavaScript) eingebunden. Die Fächer und Credit Points wurden vom Studiendekan in der Task “WP-Fächer eintragen” eingetragen. Folgende **GIF** soll die Funktionen des Formulars darstellen. 
 
 ![Alt text](/abbildungen/Auswaehlen.gif?raw=true "WPF Auswählen GIF")
 
 Die Studierx können über Checkboxen die gewünschten Fächer auswählen. Folgendes JavaScript zählt, wie viele Fächer ausgewählt wurden. Dieser Vorgang ist für die Zulassungsprüfung relevant. 
 
-Auszug aus dem Formular "wpfs-auswaehlen.html", Zählen der Fächer
+**Auszug aus dem Formular "wpfs-auswaehlen.html", Zählen der Fächer**
 
 ```
     <script>
@@ -142,7 +142,7 @@ $(document).ready(function(){
 
 Des Weiteren werden über folgendes JavaScript die Credit Points gezählt und summiert. Das Script zählt pro Zeile in der Tabelle, welches Fach ausgewählt ist, und summiert die entsprechenden Credit Points. 
 
-Auszug aus dem Formular "wpfs-auswaehlen.html", Summieren der Credit Points
+**Auszug aus dem Formular "wpfs-auswaehlen.html", Summieren der Credit Points**
 
 ```
 <script>
@@ -166,9 +166,9 @@ $(document).ready(function(){
 
 ```
 
-Auch dieser Vorgang ist für die Zulassungsprüfung relevant. Die Summe wird per Variable an die DMN Tabelle übergeben. Ferner wird per JavaScript ein Zeitstempel erstellt, welcher den aktuellen Zeitpunkt der Anmeldung der Fächer festhält und an die DMN Tabelle zur Prüfung weitergibt. Im darauffolgenden Task “Zulassung für WP-Fächer prüfen” kommt nun die DMN Tabelle zum Einsatz (Kapitel 2.3.). Nach dem DMN Task folgt ein exklusives Gateway. Gibt die DMN Entscheidung den Wert “false” aus (${antwort==false}), war die Prüfung nicht erfolgreich. Daraufhin folgt der Send Task (Studierx benachrichtigen) in dem erneut eine Mail Java Klasse implementiert ist. Die Java Klasse verschickt eine E-Mail an den Studierx mit der bitte die Eingaben zu prüfen. In der E-Mail sind auch die ausgewählten Fächer + Credit Points aufgelistet. Diese werden über die definierte Variable eingebunden (siehe folgender Ausschnitt). 
+Auch dieser Vorgang ist für die Zulassungsprüfung relevant. Die Summe wird per Variable an die DMN Tabelle übergeben. Ferner wird per JavaScript ein Zeitstempel erstellt, welcher den aktuellen Zeitpunkt der Anmeldung der Fächer festhält und an die DMN Tabelle zur Prüfung weitergibt. Im darauffolgenden Task “Zulassung für WP-Fächer prüfen” kommt nun die DMN Tabelle zum Einsatz (siehe hierzu [Entscheidung](https://github.com/potti500/wpf-auswahl/blob/master/README.md#entscheidungdmn)). Nach dem DMN Task folgt ein exklusives Gateway. Gibt die DMN Entscheidung den Wert “false” aus `(${antwort==false})`, war die Prüfung nicht erfolgreich. Daraufhin folgt der Send Task (Studierx benachrichtigen) in dem erneut eine Mail Java Klasse implementiert ist. Die Java Klasse verschickt eine E-Mail an den Studierx mit der bitte die Eingaben zu prüfen. In der E-Mail sind auch die ausgewählten Fächer + Credit Points aufgelistet. Diese werden über die definierte Variable eingebunden (siehe folgender Ausschnitt). 
 
-Auszug aus der E-Mail Java Klasse "AnmeldungError.java"
+**Auszug aus der E-Mail Java Klasse "AnmeldungError.java"**
 
 ```
 
@@ -187,7 +187,7 @@ Auszug aus der E-Mail Java Klasse "AnmeldungError.java"
 
 ```
 
-Ist die Zulassung erfolgreich (${antwort==true}) folgt der Send Task (Prüfungsanmeldung durchführen). Dadurch erhält der Studierx eine E-Mail (hier ist ebenfalls eine Java Klasse implementiert) mit einer Liste der ausgewählten Fächer, sowie die Bestätigung, dass er sich erfolgreich für die Fächer eingetragen hat. Der Prozess ist anschließend beendet. 
+Ist die Zulassung erfolgreich `(${antwort==true})` folgt der Send Task (Prüfungsanmeldung durchführen). Dadurch erhält der Studierx eine E-Mail (hier ist ebenfalls eine Java Klasse implementiert) mit einer Liste der ausgewählten Fächer, sowie die Bestätigung, dass er sich erfolgreich für die Fächer eingetragen hat. Der Prozess ist anschließend beendet. 
 
 ### CMMN
 
@@ -195,9 +195,9 @@ Die Tasks “Termin mit Professoren absprechen” und “Raum auswählen” wurd
 
 ![Alt text](/abbildungen/Raum.png?raw=true "Auswahl Raum und Datum")
 
-Das Formular (Embedded task forms) besteht aus HTML/CSS und kann direkt in der Camunda Tasklist angezeigt werden. Damit dies erfolgen kann, muss im "UserTask" des Prozess Modells darauf hin verwiesen werden, z. B. "embedded:app:forms/wpfs-raum.html" im Feld "Form Key". Wichtig dabei ist, dass sich das HTML Formular in den Tags <form>...</form> befindet. Wichtig ist auch, dass für die Input Felder eine Variable (cam-variable-name) sowie ein typ (cam-variable-type) vergeben wird, siehe hierzu den Auszug aus o. g. Formular mit dem name "raum" sowie dem typ "Long". Die enthaltenen Klassen sind für das Styling und verweisen auf das Framework "Bootstrap” bzw. auf die Icons von “Fontawesome”. 
+Das Formular (Embedded task forms) besteht aus HTML/CSS und kann direkt in der Camunda Tasklist angezeigt werden. Damit dies erfolgen kann, muss im "UserTask" des Prozess Modells darauf hin verwiesen werden, z. B. "embedded:app:forms/wpfs-raum.html" im Feld "Form Key". Wichtig dabei ist, dass sich das HTML Formular in den Tags `<form>...</form>` befindet. Wichtig ist auch, dass für die Input Felder eine Variable (cam-variable-name) sowie ein typ (cam-variable-type) vergeben wird, siehe hierzu den Auszug aus o. g. Formular mit dem name "raum" sowie dem typ "Long". Die enthaltenen Klassen sind für das Styling und verweisen auf das Framework "Bootstrap” bzw. auf die Icons von “Fontawesome”. 
 
-Auszug aus dem Formular "wpfs-raum.html"
+**Auszug aus dem Formular "wpfs-raum.html"**
 
 ```
 [....]
@@ -211,7 +211,7 @@ cam-variable-type="Long"/><span class="input-group-addon">
 
 ```
 
-Das vollständige Formular liegt unter: src/main/webapps/forms. Weitere Informationen zu "Embedded task forms" sind hier verfügbar: https://docs.camunda.org/manual/7.9/user-guide/task-forms/#embedded-task-forms  
+Das vollständige Formular liegt unter: `src/main/webapps/forms`. Weitere Informationen zu "Embedded task forms" sind hier verfügbar: https://docs.camunda.org/manual/7.9/user-guide/task-forms/#embedded-task-forms  
 
 Die Task “externe Dozenten einladen” wurde als “Discretionary” Task definiert, da dieser nicht ausgeführt werden muss, sondern nach Einschätzung des Studiendekan ausgeführt werden kann. Die Tasks “Professx benachrichtigen” und “Studierx benachrichtigen” wurden als nicht blockierende "HumanTasks" modelliert. Diese Tasks werden vom Studiendekan manuell (Dreieck Symbol im Task) ausgeführt und stoppen dabei den Sequenzfluss nicht. Der anschließende Meilenstein (Planung abgeschlossen) symbolisiert, dass ein Ziel innerhalb eines Falles erreicht ist. Das Erreichen des Meilensteins im Sequenzfluss bedeutet, dass die Phase “Termin und Raum festlegen” abgeschlossen ist. Der Meilenstein selbst repräsentiert also nur den Bearbeitungsfortschritt, ohne selbst einen Arbeitsfortschritt zu assoziieren. 
 
